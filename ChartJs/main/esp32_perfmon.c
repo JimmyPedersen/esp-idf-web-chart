@@ -19,17 +19,17 @@ static const uint64_t MaxIdleCalls = 1233100;
 #error "Unsupported CPU frequency"
 #endif
 
-static int cpu0;
-static int cpu1;
+static int cpu0_usage;
+static int cpu1_usage;
 static bool init_done = false;
 
 bool get_cpu_usage(int *cpu0, int *cpu1)
 {
 	if (!init_done)
 		return false;
-	
-	*cpu0 = cpu0;
-	*cpu1 = cpu1;
+
+	*cpu0 = cpu0_usage;
+	*cpu1 = cpu1_usage;
 	return true;
 }
 
@@ -55,11 +55,11 @@ static void perfmon_task(void *args)
 		idle0Calls = 0;
 		idle1Calls = 0;
 
-		cpu0 = 100.f -  idle0 / MaxIdleCalls * 100.f;
-		cpu1 = 100.f - idle1 / MaxIdleCalls * 100.f;
+		cpu0_usage = 100.f -  idle0 / MaxIdleCalls * 100.f;
+		cpu1_usage = 100.f - idle1 / MaxIdleCalls * 100.f;
 
-		ESP_LOGI(TAG, "Core 0 at %d%%", cpu0);
-		ESP_LOGI(TAG, "Core 1 at %d%%", cpu1);
+		ESP_LOGI(TAG, "Core 0 at %d%%", cpu0_usage);
+		ESP_LOGI(TAG, "Core 1 at %d%%", cpu1_usage);
 		// TODO configurable delay
 		vTaskDelay(5000 / portTICK_PERIOD_MS);
 	}

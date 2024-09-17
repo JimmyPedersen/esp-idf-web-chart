@@ -1,5 +1,5 @@
 idf_component_register(
-    SRCS "main.c" "web_server.c" "web_client.c" "perfmon.c"
+    SRCS "main.c" "web_server.c" "web_client.c" esp32_perfmon.c
     INCLUDE_DIRS "."
     EMBED_FILES
     	"../html/error.html"
