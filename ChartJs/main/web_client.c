@@ -25,6 +25,7 @@ static const char *TAG = "web_client";
 #include "esp_adc/adc_oneshot.h"
 
 #include "websocket_server.h"
+#include "esp32_perfmon.h"
 
 extern MessageBufferHandle_t xMessageBufferToClient;
 
@@ -238,6 +239,15 @@ void client_task(void* pvParameters) {
 				}
 				adc_reading1 /= NO_OF_SAMPLES;
 				ESP_ERROR_CHECK(adc_cali_raw_to_voltage(adc1_cali_handle, adc_reading1, &voltage1));
+
+/*				char pmem[4096];
+				vTaskGetRunTimeStats(pmem);
+				puts(pmem);
+
+				int cpu0, cpu1;
+				if(get_cpu_usage(&cpu0, &cpu1))
+					voltage1 = cpu0 + cpu1;
+				ESP_LOGI(TAG, "cpu0: %d cpu1: %d", cpu0, cpu1);*/
 #if CONFIG_ENABLE_STDOUT
 				ESP_LOGI(TAG, "GPIO%02d adc1_channel1: %d Raw: %"PRIi32" Voltage: %dmV", CONFIG_METER1_GPIO, adc1_channel1, adc_reading1, voltage1);
 #endif

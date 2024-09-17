@@ -19,7 +19,7 @@
 #include "esp_log.h"
 #include "nvs_flash.h"
 #include "mdns.h"
-
+#include "esp32_perfmon.h"
 #include "websocket_server.h"
 
 MessageBufferHandle_t xMessageBufferToClient;
@@ -181,6 +181,9 @@ void app_main() {
 
 	// Start web client
 	xTaskCreate(&client_task, "client_task", 1024*4, NULL, 5, NULL);
+
+	// Start perfmon
+	perfmon_start();
 
 	vTaskDelay(100);
 }
